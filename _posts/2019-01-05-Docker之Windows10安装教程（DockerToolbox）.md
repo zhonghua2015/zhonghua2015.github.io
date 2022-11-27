@@ -109,13 +109,13 @@ docker images
 docker rm $(docker ps -aq) 
 
 #删除容器应用: 
-docker ps -a --format "{{.ID}}" | foreach {
+docker ps -a --format "{{ID}}" | foreach {
     docker stop $_
     docker rm $_
 }
  
 #删除本地容器镜像:
-docker images --format "{{.ID}}" | foreach {
+docker images --format "{{ID}}" | foreach {
    docker rmi stop $_
 }
 ```
