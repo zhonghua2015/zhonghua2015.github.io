@@ -1,17 +1,17 @@
 ﻿---
 layout: post
 title: 'ElasticSearch入门 - Java客户端实现增删改查'
-date: 2019-01-06
+date: 2022-01-06
 categories: 技术
 tags: ElasticSearch
 ---
 
-<strong><font color=SlateGray>前言：</font> </strong> es java客户端有 原生ESTransport Client方式（相当于写jdbc代码，麻烦，不采用）、spring data es（spring对Es的数据访问，类似于spring data jpa对db访问，采用！）两种方式。
+<strong><font color="SlateGray">前言：</font> </strong> es java客户端有 原生ESTransport Client方式（相当于写jdbc代码，麻烦，不采用）、spring data es（spring对Es的数据访问，类似于spring data jpa对db访问，采用！）两种方式。
 
-**<font color=red>springboot项目整合es：</font>**
+**<font color="red">springboot项目整合es：</font>**
 
 **1、创建springboot项目：**
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121191419303.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121191419303.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 **2、导入spring data es依赖：**
 
 ```java
@@ -23,7 +23,7 @@ tags: ElasticSearch
 ```
 
 **3、配置** 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121191446426.png)
+<img src="https://img-blog.csdnimg.cn/20190121191446426.png" alt='pic01' referrerpolicy='no-referrer'>
 ```yaml
 spring:
   data:
@@ -46,12 +46,12 @@ public class ElasticsearchApplication {
 **5、测试**
 
 > <strong>注：</strong>测试的时候不要忘记启动elasticsearch服务端和kibana哦！！
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121191538375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121191538375.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 > 测试一下： http://127.0.0.1:5601
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121191714410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121191714410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'> 
 
 ① 创建索引 并 建立类型映射：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121191834655.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121191834655.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'> 
 ```java
 //indexName:索引库     type:类型
 @Document(indexName = "zq_test",type = "user")
@@ -96,15 +96,15 @@ public class ESTest {
 ```
 
 运行测试
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121191857892.png)
+<img src="https://img-blog.csdnimg.cn/20190121191857892.png" alt='pic01' referrerpolicy='no-referrer'> 
 查看类型映射： <font color=SkyBlue>GET zq_test/_mapping/user</font>
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121192019132.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121192019132.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'> 
 
 > <strong>注：</strong>如果报以下错误：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121192131546.png)
+<img src="https://img-blog.csdnimg.cn/20190121192131546.png" alt='pic01' referrerpolicy='no-referrer'> 
 >
 > <strong>解决方法：</strong>修改elasticsearch配置文件：   -  如果这样修改后还是不行的话可能就要排除是不是版本问题了哦！
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121192150667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121192150667.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'> 
 
 ②  CRUD：
 
@@ -197,7 +197,7 @@ public void testNativeSearchQueryBuilder() throws Exception {
 ------
 
 <strong>最后附上源码：</strong> https://pan.baidu.com/s/1Mi64ludl3MOhg3RrXUEQkg
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190121192456218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190121192456218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'> 
 
 
 

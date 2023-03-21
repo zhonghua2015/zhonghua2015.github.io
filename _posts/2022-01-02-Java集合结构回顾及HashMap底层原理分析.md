@@ -1,37 +1,37 @@
 ﻿---
 layout: post
 title: 'Java集合结构回顾及HashMap底层原理分析'
-date: 2019-01-02
+date: 2022-01-02
 categories: 技术
 tags: Java
 ---
 
-### <font color=DeepSkyBlue>一、集合结构回顾</font>
+### <font color="DeepSkyBlue">一、集合结构回顾</font>
 
 Java中的集合包含多种数据结构，如链表、队列、哈希表等。从类的继承结构来说，可以分为两大类，一类是继承自Collection接口，这类集合包含List、Set和Queue等集合类。另一类是继承自Map接口，这主要包含了哈希表相关的集合类。
 
-#### <font color=Orange>1、List、Set和Queue</font>
+#### <font color="Orange">1、List、Set和Queue</font>
 
 > 注：图中的绿色的虚线代表实现，绿色实线代表接口之间的继承，蓝色实线代表类之间的继承。
 
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225105329474.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190225105329474.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
-1. <font color=Tomato>List</font>：有序可重复，平常我们使用的比较多的List有ArrayList和LinkedList
+1. <font color="Tomato">List</font>：有序可重复，平常我们使用的比较多的List有ArrayList和LinkedList
 
-   <font color=YellowGreen>ArrayList</font>底层是数组，查询效率高，插入和删除效率低
+   <font color="YellowGreen">ArrayList</font>底层是数组，查询效率高，插入和删除效率低
 
-   <font color=YellowGreen>LinkedList</font>底层是链表，查询效率低，插入和删除效率高
+   <font color="YellowGreen">LinkedList</font>底层是链表，查询效率低，插入和删除效率高
 
    至于Vector，它是ArrayList的线程安全版本
 
-2. <font color=Tomato>Queue</font>：一般可以直接使用LinkedList完成，从上述类图也可以看出，LinkedList继承自Deque，所以LinkedList具有双端队列的功能。PriorityQueue的特点是为每个元素提供一个优先级，优先级高的元素会优先出队列。
+2. <font color="Tomato">Queue</font>：一般可以直接使用LinkedList完成，从上述类图也可以看出，LinkedList继承自Deque，所以LinkedList具有双端队列的功能。PriorityQueue的特点是为每个元素提供一个优先级，优先级高的元素会优先出队列。
 
-3. <font color=Tomato>Set</font>：Set与List的主要区别是Set是不允许元素重复的，而List则可以允许元素重复的。判断元素的重复需要根据对象的hash方法和equals方法来决定。这也是我们通常要为集合中的元素类重写hashCode方法和equals方法的原因。
+3. <font color="Tomato">Set</font>：Set与List的主要区别是Set是不允许元素重复的，而List则可以允许元素重复的。判断元素的重复需要根据对象的hash方法和equals方法来决定。这也是我们通常要为集合中的元素类重写hashCode方法和equals方法的原因。
 
    对于集合中元素，hashCode值不同的元素一定不相等，但是不相等的元素，hashCode值可能相同。<font color=YellowGreen>HashSet</font>和<font color=YellowGreen>LinkedHashSet</font>的区别在于后者可以保证元素插入集合的元素顺序与输出顺序保持一致。而<font color=YellowGreen>TreeSet</font>的区别在于其排序是按照Comparator来进行排序的，默认情况下按照字符的自然顺序进行升序排列。
 
-4. <font color=Tomato>Iterable</font>：从这个图里面可以看到Collection类继承自Iterable，该接口的作用是提供元素遍历的功能，也就是说所有的集合类（除Map相关的类）都提供元素遍历的功能。Iterable里面包含了Iterator的迭代器，其源码如下，大家如果熟悉迭代器模式的话，应该很容易理解。
+4. <font color="Tomato">Iterable</font>：从这个图里面可以看到Collection类继承自Iterable，该接口的作用是提供元素遍历的功能，也就是说所有的集合类（除Map相关的类）都提供元素遍历的功能。Iterable里面包含了Iterator的迭代器，其源码如下，大家如果熟悉迭代器模式的话，应该很容易理解。
 
    ```java
    public interface Iterator<E> {
@@ -48,9 +48,9 @@ Java中的集合包含多种数据结构，如链表、队列、哈希表等。�
    }
    ```
 
-5. <font color=Tomato>Comparable和Comparator</font>
+5. <font color="Tomato">Comparable和Comparator</font>
 
-    <font color=YellowGreen>Comparable</font>接口 -> 可比较的
+    <font color="YellowGreen">Comparable</font>接口 -> 可比较的
 
 	   实现该接口表示：这个类的实例可以比较大小，可以进行自然排序
 	   定义了默认的比较规则
@@ -63,22 +63,22 @@ Java中的集合包含多种数据结构，如链表、队列、哈希表等。�
 	   其实现类需要实现compare()方法
 	   Comparable和Comparator都是Java集合框架的成员
 
-#### <font color=Orange>2、Map </font>
+#### <font color="Orange">2、Map </font>
 
 > 注：图中的绿色的虚线代表实现，绿色实线代表接口之间的继承，蓝色实线代表类之间的继承。
 
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225105624577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190225105624577.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
 Map类型的集合最大的优点在于其查找效率比较高，理想情况下可以实现O(1)的时间复杂度。Map中最常用的是<font color=SandyBrown>HashMap</font>，<font color=YellowGreen>LinkedHashMap与HashMap的区别</font>在于前者能够保证插入集合的元素顺序与输出顺序一致。这两者与<font color=YellowGreen>TreeMap</font>的区别在于TreeMap是根据键值进行排序的，当然其底层的实现也有本质的区别，如HashMap底层是一个哈希表，而TreeMap的底层数据结构是一棵树。
 
-<font color=YellowGreen>HashMap与TreeMap的区别</font>，与之前提到的HashSet与TreeSet的区别是一致的， HashSet和TreeSet本质上分别是通过HashMap和TreeMap来实现的，所以它们的区别自然也是相同的。HashTable现在已经很少使用了，与HashMap的主要区别是HashTable是线程安全的，不过由于其效率比较低，所以通常使用HashMap，在多线程环境下，通常用CurrentHashMap来代替。
+<font color="YellowGreen">HashMap与TreeMap的区别</font>，与之前提到的HashSet与TreeSet的区别是一致的， HashSet和TreeSet本质上分别是通过HashMap和TreeMap来实现的，所以它们的区别自然也是相同的。HashTable现在已经很少使用了，与HashMap的主要区别是HashTable是线程安全的，不过由于其效率比较低，所以通常使用HashMap，在多线程环境下，通常用CurrentHashMap来代替。
 
    > 注：那么什么是时间复杂度呢？
 
-#### <font color=Orange>3、算法复杂度 </font>
+#### <font color="Orange">3、算法复杂度 </font>
 
-算法复杂度分为<font color=Tomato>时间复杂度</font><font color=YellowGreen>(度量算法执行的时间长短)</font>和<font color=Tomato>空间复杂度</font><font color=YellowGreen>(度量算法所需存储空间的大小)</font>。
+算法复杂度分为<font color="Tomato">时间复杂度</font><font color=YellowGreen>(度量算法执行的时间长短)</font>和<font color=Tomato>空间复杂度</font><font color=YellowGreen>(度量算法所需存储空间的大小)</font>。
 
 **时间复杂度**
 
@@ -101,13 +101,13 @@ ex：
 
 　　与时间复杂度类似，空间复杂度是指算法在计算机内执行时所需存储空间的度量。记作: 　　S(n)=O(f(n)) 　　我们一般所讨论的是除正常占用内存开销外的辅助存储单元规模。
 
-### <font color=DeepSkyBlue>二、HashMap底层原理分析</font>
+### <font color="DeepSkyBlue">二、HashMap底层原理分析</font>
 
 >  注：以下分析仅为jdk1.8底层实现！
 
 ​       HashMap也是我们使用非常多的Collection，它是基于哈希表的 Map 接口的实现，以key-value的形式存在。在HashMap中，key-value总是会当做一个整体来处理，系统会根据hash算法来来计算key-value的存储位置，我们总是可以通过key快速地存、取value。
 
-#### <font color=Orange>1、HashMap定义</font>
+#### <font color="Orange">1、HashMap定义</font>
 
 ​       HashMap实现了Map接口，继承AbstractMap。其中Map接口定义了键映射到值的规则，而AbstractMap类提供 Map 接口的骨干实现，以最大限度地减少实现此接口所需的工作，其实AbstractMap类已经实现了Map。
 
@@ -144,17 +144,17 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
 
 > 注：transient是java语言的关键字，变量修饰符，如果用transient声明一个实例变量，当对象存储时，它的值不需要维持。换句话来说就是，用transient关键字标记的成员变量不参与序列化过程。
 
-#### <font color=Orange>2、HashMap底层结构示意图</font>
+#### <font color="Orange">2、HashMap底层结构示意图</font>
 
-<font color=Tomato>Jdk1.7</font>中，HashMap底层基于<font color=Tomato>数组+链表</font>实现，如果entry放的位置在数组中都是同一个位置，链表就会变得很长，链表深度过深将导致效率低下！
+<font color="Tomato">Jdk1.7</font>中，HashMap底层基于<font color=Tomato>数组+链表</font>实现，如果entry放的位置在数组中都是同一个位置，链表就会变得很长，链表深度过深将导致效率低下！
 
-因此在<font color=Tomato>Jdk1.8</font>中，为了解决链表深度过深导致的效率低下问题，HashMap底层结构变为<font color=Tomato>数组+链表+红黑树</font>实现。示意图如下：
+因此在<font color="Tomato">Jdk1.8</font>中，为了解决链表深度过深导致的效率低下问题，HashMap底层结构变为<font color=Tomato>数组+链表+红黑树</font>实现。示意图如下：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225105848818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190225105848818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225105911650.png)
+<img src="https://img-blog.csdnimg.cn/20190225105911650.png" alt='pic01' referrerpolicy='no-referrer'>
 
-**<font color=YellowGreen>红黑树：</font>**
+**<font color="YellowGreen">红黑树：</font>**
 
 ​      红黑树（Red Black Tree） 是一种自平衡二叉查找树，是在计算机科学中用到的一种数据结构，典型的用途是实现关联数组。
 
@@ -168,14 +168,14 @@ public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneabl
 ```
 **注：** 在树的结构发生改变时（插入或者删除操作），往往会破坏上述条件3或条件4，需要通过调整使得查找树重新满足红黑树的条件。如果有删除或者插入节点,使用左旋和右旋;
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225113755888.gif)
+<img src="https://img-blog.csdnimg.cn/20190225113755888.gif" alt='pic01' referrerpolicy='no-referrer'>
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225113804643.gif)
+<img src="https://img-blog.csdnimg.cn/20190225113804643.gif" alt='pic01' referrerpolicy='no-referrer'>
 
 
 > 具体红黑树特征可查看：<https://mp.weixin.qq.com/s/oNmUW-rUbTPPgUbFn9oddQ>
 
-#### <font color=Orange>3、HashMap底层代码解析</font>
+#### <font color="Orange">3、HashMap底层代码解析</font>
 
 HashMap提供了4个构造函数：
 
@@ -191,7 +191,7 @@ HashMap提供了4个构造函数：
 
 &emsp;&emsp;在这里提到了两个参数：初始容量，加载因子。这两个参数是影响HashMap性能的重要参数，其中容量表示哈希表中桶的数量，初始容量是创建哈希表时的容量，加载因子是哈希表在其容量自动增加之前可以达到多满的一种尺度，它衡量的是一个散列表的空间的使用程度，负载因子越大表示散列表的装填程度越高，反之愈小。对于使用链表法的散列表来说，查找一个元素的平均时间是O(1+a)，因此如果负载因子越大，对空间的利用更充分，然而后果是查找效率的降低；如果负载因子太小，那么散列表的数据将过于稀疏，对空间造成严重浪费。系统默认负载因子为0.75，一般情况下我们是无需修改的。
 
-**<font color=VioletRed>3.1 存值put(K key, V value)</font>**
+**<font color="VioletRed">3.1 存值put(K key, V value)</font>**
 
 ```java
 public V put(K key, V value) {  
@@ -253,7 +253,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
         return null;
 }
 ```
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225110539276.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190225110539276.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
 ① 判断当前桶是否为空，空的就需要初始化（resize 中会判断是否进行初始化）。
 
@@ -273,7 +273,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 ⑨ 最后判断是否需要进行扩容。
 
-**<font color=VioletRed>3.2 取值 get(Object key)</font>**
+**<font color="VioletRed">3.2 取值 get(Object key)</font>**
 
 ```java
 public V get(Object key) {
@@ -318,11 +318,11 @@ final Node<K,V> getNode(int hash, Object key) {
 
 从这两个核心方法（get/put）可以看出 1.8 中对大链表做了优化，修改为红黑树之后查询效率直接提高到了 O(logn)。
 
-**<font color=VioletRed>3.3 遍历方式</font>**
+**<font color="VioletRed">3.3 遍历方式</font>**
 
 HashMap 的遍历方式，通常有以下几种：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225110702458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190225110702458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
 强烈建议使用第一种 EntrySet 进行遍历。
 
@@ -346,6 +346,6 @@ HashMap 的遍历方式，通常有以下几种：
  
 <hr/>
 
-**<font color=red>总结：</font>**
+**<font color="red">总结：</font>**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190225112529852.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190225112529852.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>

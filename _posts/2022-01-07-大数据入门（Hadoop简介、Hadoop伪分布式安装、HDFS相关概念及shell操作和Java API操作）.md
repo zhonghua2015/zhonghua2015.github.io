@@ -1,17 +1,17 @@
 ﻿---
 layout: post
 title: '大数据入门（Hadoop简介、Hadoop伪分布式安装、HDFS相关概念及shell操作和Java API操作）'
-date: 2019-01-07
+date: 2022-01-07
 categories: 技术
 tags: 大数据
 ---
 
-### <font color=Cyan>一、HADOOP简介</font>
+### <font color="Cyan">一、HADOOP简介</font>
 
-#### <font color=DarkGoldenRod>1、为什么需要Hadoop？</font>
+#### <font color="DarkGoldenRod">1、为什么需要Hadoop？</font>
 
 从一个例子开始，现在我们业务系统通过nginx转发tomcat，所有用户都通过访问Nginx访问我们的功能，Nginx为我们记录了accessLog,我们可以分析这些日志来挖掘一些用户行为。为网站运营提供统计支持。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227215608481.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/20190227215608481.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
 > Flume Agent：做日志收集
 > HDFS：类似于fastDFS一样的文件管理系统（这里是存储上面收集的日志信息）
@@ -32,7 +32,7 @@ tags: 大数据
 
 其实我们可以使用hadoop来完成以上操作。下面我们就来聊一下hadoop的一些概念...
 
-#### <font color=DarkGoldenRod>2、什么是Hadoop？</font>
+#### <font color="DarkGoldenRod">2、什么是Hadoop？</font>
 
 **狭义：** Hadoop是apache旗下的一套开源软件平台
 
@@ -46,7 +46,7 @@ Hadoop提供的功能：利用服务器集群，根据用户的自定义业务�
 
 **广义：** Hadoop通常是指一个更广泛的概念 -> Hadoop生态圈
 
-#### <font color=DarkGoldenRod>3、Hadoop产生背景</font>
+#### <font color="DarkGoldenRod">3、Hadoop产生背景</font>
 
 ① Hadoop最早起源于Nutch。Nutch的设计目标是构建一个大型的全网搜索引擎，包括网页抓取、索引、查询等功能，但随着抓取网页数量的增加，遇到了严重的可扩展性问题——如何解决数十亿网页的存储和索引问题。
 
@@ -58,22 +58,23 @@ Hadoop提供的功能：利用服务器集群，根据用户的自定义业务�
 
 ③ Nutch的开发人员完成了相应的开源实现HDFS和MAPREDUCE，并从Nutch中剥离成为独立项目Hadoop，到2008年1月，Hadoop成为Apache顶级项目，迎来了它的快速发展期。
 
-#### <font color=DarkGoldenRod>4、Hadoop生态系统</font>
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227215703358.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+#### <font color="DarkGoldenRod">4、Hadoop生态系统</font>
+<img src="https://img-blog.csdnimg.cn/20190227215703358.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
+
 
 **重点组件：**
 
-<font color=DeepPink>HDFS：分布式文件系统</font>
+<font color="DeepPink">HDFS：分布式文件系统</font>
 
-<font color=DeepPink>YARN：资源管理平台</font>
+<font color="DeepPink">YARN：资源管理平台</font>
 
-<font color=DeepPink>MAPREDUCE：分布式运算程序开发框架</font>
+<font color="DeepPink">MAPREDUCE：分布式运算程序开发框架</font>
 
-<font color=DeepPink>HIVE：基于大数据技术（文件系统+运算框架）的SQL数据仓库工具</font>
+<font color="DeepPink">HIVE：基于大数据技术（文件系统+运算框架）的SQL数据仓库工具</font>
 
 HBASE：基于HADOOP的分布式海量数据库
 
-<font color=DeepPink>ZOOKEEPER：分布式协调服务基础组件</font>
+<font color="DeepPink">ZOOKEEPER：分布式协调服务基础组件</font>
 
 Mahout：基于mapreduce/spark/flink等分布式运算框架的机器学习算法库
 
@@ -83,7 +84,7 @@ Sqoop：数据导入导出工具
 
 Flume：日志数据采集框架
 
-#### <font color=DarkGoldenRod>5、Hadoop发行版介绍(开源版)</font>
+#### <font color="DarkGoldenRod">5、Hadoop发行版介绍(开源版)</font>
 
 1. Apache Hadoop 推荐使用最新的2.x.x版本
 
@@ -105,9 +106,9 @@ Flume：日志数据采集框架
 
 > 以后工作中最好选择公司发行版（CDH或HDP），我们学习的话使用原生版本即可（Apache Hadoop）
 
-#### <font color=DarkGoldenRod>6、使用场景</font>
+#### <font color="DarkGoldenRod">6、使用场景</font>
 1. Hadoop应用于数据服务基础平台建设
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227215828532.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70) 
+<img src="https://img-blog.csdnimg.cn/20190227215828532.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 
 2. Hadoop用于用户画像
 
@@ -121,20 +122,22 @@ Flume：日志数据采集框架
 
    电信行业：用户上网行为分析
 
-#### <font color=DarkGoldenRod>7、总结</font>
+#### <font color="DarkGoldenRod">7、总结</font>
 
 ​        Hadoop广义上讲是Hadoop生态圈，包括了基础HDFS,Yarn，MapReduce（自带计算框架），还有一些辅助工具（Flume，azkaban，sqoop等）。注意在大数据领域除了hadoop以外还有两个比较重要的计算框架storm,spark等，它不属于hadoop广义生态圈
 
-### <font color=Cyan>二、HDFS概述</font>
+### <font color="Cyan">二、HDFS概述</font>
 
-#### <font color=DarkGoldenRod>1、HDFS是什么？</font>
+#### <font color="DarkGoldenRod">1、HDFS是什么？</font>
 
   全称Hadoop Distributed File System，叫做hadoop的分布式文件系统，源自于Google的GFS论文    	
 
   发表于2003年10月，HDFS是GFS克隆版。提供了 高可靠性、高扩展性和高吞吐率的数据存储服务。为各类分布式运算框架（如：mapreduce，spark，tez，……）提供数据存储服务。
 
-#### <font color=DarkGoldenRod>2、架构</font>
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2019022721591153.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
+#### <font color="DarkGoldenRod">2、架构</font>
+<!--![在这里插入图片描述]-->
+<img src="https://img-blog.csdnimg.cn/2019022721591153.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
+
 1. HDFS中的文件在物理上是分块存储（block），块的大小可以通过配置参数( dfs.blocksize)来规定，默认大小在hadoop2.x版本中是128M，老版本中是64M
 
 2. HDFS文件系统会给客户端提供一个统一的抽象目录树，客户端通过路径来访问文件，形如：hdfs://namenode:port/dir-a/dir-b/dir-c/file.data
@@ -147,7 +150,7 @@ Flume：日志数据采集框架
 
 5. HDFS是设计成适应一次写入，多次读出的场景，且不支持文件的修改
 
-#### <font color=DarkGoldenRod>3、优缺点</font>
+#### <font color="DarkGoldenRod">3、优缺点</font>
 
 **优点：**
 
@@ -195,7 +198,7 @@ Flume：日志数据采集框架
 
 - 仅支持append
 
-### <font color=Cyan>三、Hadoop伪分布式安装</font>
+### <font color="Cyan">三、Hadoop伪分布式安装</font>
 
 > 伪分布式：一台主机安装多种节点（我们学习的话只有一个电脑，所以进行伪分布式安装）
 >
@@ -203,7 +206,7 @@ Flume：日志数据采集框架
 
 要求：安装在linux环境下
 
-#### <font color=DarkGoldenRod>1、Hadoop安装前准备</font>
+#### <font color="DarkGoldenRod">1、Hadoop安装前准备</font>
 
 1. 克隆一个虚拟机,ip自动获取
 
@@ -248,7 +251,7 @@ Flume：日志数据采集框架
    ```
 
 
-#### <font color=DarkGoldenRod>2、Hadoop安装与配置</font>
+#### <font color="DarkGoldenRod">2、Hadoop安装与配置</font>
 
 ```java
 tar -zxvf hadoop*tar.gz
@@ -289,7 +292,7 @@ tar -zxvf hadoop*tar.gz
 
 
 
-#### <font color=DarkGoldenRod>3、启动hdfs</font>
+#### <font color="DarkGoldenRod">3、启动hdfs</font>
 
 ```java
 修改hostname 
@@ -314,9 +317,9 @@ http://hadoop-yarn.zhengqing.com:50090
 
 
 
-### <font color=Cyan>四、HDFS的shell(命令行客户端)操作</font>
+### <font color="Cyan">四、HDFS的shell(命令行客户端)操作</font>
 
-#### <font color=DarkGoldenRod>1、HDFS命令行客户端使用</font>
+#### <font color="DarkGoldenRod">1、HDFS命令行客户端使用</font>
 
 HDFS提供shell命令行客户端，使用方法如下：
 
@@ -325,8 +328,8 @@ HDFS提供shell命令行客户端，使用方法如下：
 hadoop fs   -…  <args> 最终这个命令也要转换为hdfs
 
 hdfs dfs      -…   <args>
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227220102985.png)
-#### <font color=DarkGoldenRod>2、命令行客户端支持的命令参数</font>
+<img src="https://img-blog.csdnimg.cn/20190227220102985.png" alt='pic01' referrerpolicy='no-referrer'>
+#### <font color="DarkGoldenRod">2、命令行客户端支持的命令参数</font>
 
 ```java
  [-appendToFile <localsrc> ... <dst>]
@@ -369,7 +372,7 @@ hdfs dfs      -…   <args>
 
 
 
-#### <font color=DarkGoldenRod>3、常用命令参数介绍</font>
+#### <font color="DarkGoldenRod">3、常用命令参数介绍</font>
 
 ```java
 -help             
@@ -498,12 +501,11 @@ hadoop  fs  -du  -s  -h /aaa/*
 示例：hadoop fs -setrep 3 /aaa/jdk.tar.gz
 ```
 
-### <font color=Cyan>五、HDFS的Java操作</font>
+### <font color="Cyan">五、HDFS的Java操作</font>
 
 hdfs在生产应用中主要是客户端的开发，其核心步骤是从hdfs提供的api中构造一个HDFS的访问客户端对象，然后通过该客户端对象操作（增删改查）HDFS上的文件
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227220208379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
-
+<img src="https://img-blog.csdnimg.cn/20190227220208379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 #### <font color=DarkGoldenRod>1、搭建开发环境</font>
 
 ① 引入依赖
@@ -553,7 +555,7 @@ public static void main(String[] args) throws IOException {
 
 3. 在windows系统的path变量中加入HADOOP_HOME的bin目录
 
-#### <font color=DarkGoldenRod>2、获取api中的客户端对象</font>
+#### <font color="DarkGoldenRod">2、获取api中的客户端对象</font>
 
 在java中操作hdfs，首先要获得一个客户端实例
 
@@ -570,9 +572,8 @@ get方法是从何处判断具体实例化那种客户端类呢？
 
 ​       如果我们的代码中没有指定fs.defaultFS，并且工程classpath下也没有给定相应的配置，conf中的默认值就来自于hadoop的jar包中的core-default.xml，默认值为： file:///，则获取的将不是一个DistributedFileSystem的实例，而是一个本地文件系统的客户端对象
 
-#### <font color=DarkGoldenRod>3、DistributedFileSystem实例对象所具备的方法</font>
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190227220256328.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70)
-
+#### <font color="DarkGoldenRod">3、DistributedFileSystem实例对象所具备的方法</font>
+<img src="https://img-blog.csdnimg.cn/20190227220256328.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4MjI1NTU4,size_16,color_FFFFFF,t_70" alt='pic01' referrerpolicy='no-referrer'>
 #### <font color=DarkGoldenRod>4、HDFS客户端操作数据代码示例</font>
 
 **文件的增删改查：**
@@ -681,7 +682,7 @@ public class HdfsClient {
 }
 ```
 
-#### <font color=DarkGoldenRod>5、通过流的方式访问hdfs</font>
+#### <font color="DarkGoldenRod">5、通过流的方式访问hdfs</font>
 
 ```java
 /**
@@ -749,7 +750,7 @@ public class StreamAccess {
 }
 ```
 
-#### <font color=DarkGoldenRod>6、场景编程</font>
+#### <font color="DarkGoldenRod">6、场景编程</font>
 
 在mapreduce 、spark等运算框架中，有一个核心思想就是将运算移往数据，或者说，就是要在并发计算中尽可能让运算本地化，这就需要获取数据所在位置的信息并进行相应范围读取
 
